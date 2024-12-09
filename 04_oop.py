@@ -67,3 +67,35 @@ if __name__ == "__main__":
     
     foreign_passport.update_foreign_number("FP1111")
     print(foreign_passport)
+
+
+
+# Task 2 
+
+class TemperatureConverter:
+    _conversion_count = 0
+
+    @staticmethod
+    def celsius_to_fahrenheit(celsius):
+        TemperatureConverter._conversion_count += 1
+        return celsius * 9 / 5 + 32
+
+    @staticmethod
+    def fahrenheit_to_celsius(fahrenheit):
+        TemperatureConverter._conversion_count += 1
+        return (fahrenheit - 32) * 5 / 9
+
+    @staticmethod
+    def get_conversion_count():
+        return TemperatureConverter._conversion_count
+
+
+if __name__ == "__main__":
+    fahrenheit = TemperatureConverter.celsius_to_fahrenheit(27)
+    print(f"27°C у Фаренгейтах ---> {fahrenheit}°F")
+
+    celsius = TemperatureConverter.fahrenheit_to_celsius(75)
+    print(f"75°F у Цельсіях ---> {celsius}°C")
+
+    count = TemperatureConverter.get_conversion_count()
+    print(f"Кількість виконаних конверсій :: {count}")
