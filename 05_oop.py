@@ -46,3 +46,82 @@ if __name__ == "__main__":
     print(frigate.ship_info())
     print(destroyer.ship_info())
     print(cruiser.ship_info())
+
+
+
+# Task 2
+
+class Airplane:
+    def __init__(self, model, passenger_count, max_passengers):
+        self.model = model
+        self.passenger_count = passenger_count
+        self.max_passengers = max_passengers
+
+    def __eq__(self, other):
+        if isinstance(other, Airplane):
+            return self.model == other.model
+        return False
+
+    def __add__(self, count):
+        new_count = self.passenger_count + count
+        if new_count > self.max_passengers:
+            raise ValueError("Перевищено максимальну кількість пасажирів")
+        self.passenger_count = new_count
+        return self
+
+    def __sub__(self, count):
+        new_count = self.passenger_count - count
+        if new_count < 0:
+            raise ValueError("Кількість пасажирів не може бути меншою за 0")
+        self.passenger_count = new_count
+        return self
+
+    def __iadd__(self, count):
+        return self.__add__(count)
+
+    def __isub__(self, count):
+        return self.__sub__(count)
+
+    def __lt__(self, other):
+        if isinstance(other, Airplane):
+            return self.max_passengers < other.max_passengers
+        return NotImplemented
+
+    def __le__(self, other):
+        if isinstance(other, Airplane):
+            return self.max_passengers <= other.max_passengers
+        return NotImplemented
+
+    def __gt__(self, other):
+        if isinstance(other, Airplane):
+            return self.max_passengers > other.max_passengers
+        return NotImplemented
+
+    def __ge__(self, other):
+        if isinstance(other, Airplane):
+            return self.max_passengers >= other.max_passengers
+        return NotImplemented
+    
+    def __int__(self):
+        return self.passenger_count
+
+    def __str__(self):
+        return self.model
+
+
+if __name__ == "__main__":
+    airplane1 = Airplane("Boeing 777", 130, 200)
+    airplane2 = Airplane("Airbus A32", 155, 180)
+
+    print(airplane1 == airplane2)
+
+    airplane1 += 40
+    print(f"{airplane1.model}: {int(airplane1)} пасажирів")
+
+    airplane1 -= 20
+    print(f"{airplane1.model}: {int(airplane1)} пасажирів")
+
+    print(airplane1 > airplane2)
+    print(airplane1 < airplane2)
+
+    print(str(airplane1))
