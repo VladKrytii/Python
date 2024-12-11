@@ -54,8 +54,22 @@ if __name__ == "__main__":
 class Airplane:
     def __init__(self, model, passenger_count, max_passengers):
         self.model = model
-        self.passenger_count = passenger_count
+        self._passenger_count = 0
         self.max_passengers = max_passengers
+        self.passenger_count = passenger_count
+
+    @property
+    def passenger_count(self):
+        return self._passenger_count
+
+    @passenger_count.setter
+    def passenger_count(self, count):
+        if 0 <= count <= self.max_passengers:
+            self._passenger_count = count
+        else:
+            raise ValueError(
+                f"Кількість пасажирів повинна бути у межах від 0 до {self.max_passengers}"
+            )
 
     def __eq__(self, other):
         if isinstance(other, Airplane):
@@ -63,17 +77,11 @@ class Airplane:
         return False
 
     def __add__(self, count):
-        new_count = self.passenger_count + count
-        if new_count > self.max_passengers:
-            raise ValueError("Перевищено максимальну кількість пасажирів")
-        self.passenger_count = new_count
+        self.passenger_count += count
         return self
 
     def __sub__(self, count):
-        new_count = self.passenger_count - count
-        if new_count < 0:
-            raise ValueError("Кількість пасажирів не може бути меншою за 0")
-        self.passenger_count = new_count
+        self.passenger_count -= count
         return self
 
     def __iadd__(self, count):
@@ -101,7 +109,7 @@ class Airplane:
         if isinstance(other, Airplane):
             return self.max_passengers >= other.max_passengers
         return NotImplemented
-    
+
     def __int__(self):
         return self.passenger_count
 
@@ -125,3 +133,13 @@ if __name__ == "__main__":
     print(airplane1 < airplane2)
 
     print(str(airplane1))
+
+    try:
+        airplane1 += 50 
+    except ValueError as e:
+        print(e)
+
+    try:
+        airplane1 -= 199
+    except ValueError as e:
+        print(e)
